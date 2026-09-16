@@ -1,0 +1,768 @@
+{
+  "passed": 8,
+  "total": 8,
+  "avg_score": 0.877375,
+  "results": [
+    {
+      "scenario": "health_check_p07",
+      "score": 0.839,
+      "pass": true,
+      "duration_ms": 28674.8,
+      "details": {
+        "score": 0.839,
+        "pass": true,
+        "citations": {
+          "has_citations": true,
+          "citation_count": 8,
+          "files_referenced": [
+            "vibration_baselines",
+            "alarm_history",
+            "pump_metadata",
+            "sensor_timeseries"
+          ],
+          "manuals_referenced": [],
+          "row_references": 6,
+          "cited_files": [
+            "sensor_timeseries.csv",
+            "pump_metadata.csv",
+            "vibration_baselines.csv",
+            "sensor_timeseries.csv",
+            "sensor_timeseries.csv",
+            "sensor_timeseries.csv",
+            "alarm_history.csv",
+            "pump_metadata.csv"
+          ]
+        },
+        "trajectory": {
+          "expected_tools": [
+            "query_sensors",
+            "check_vibration_zone",
+            "get_pump_profile"
+          ],
+          "actual_tools": [
+            "query_sensors",
+            "check_vibration_zone",
+            "get_pump_profile",
+            "search_alarms"
+          ],
+          "missing_tools": [],
+          "extra_tools": [
+            "search_alarms"
+          ],
+          "trajectory_match": true,
+          "tool_count": 4
+        },
+        "groundedness": {
+          "total_numbers": 84,
+          "grounded_numbers": 30,
+          "ungrounded_numbers": [
+            "65.57",
+            "2026",
+            "23",
+            "55",
+            "24",
+            "65.06",
+            "60.37",
+            "69.40",
+            "65",
+            "68"
+          ],
+          "groundedness_ratio": 0.357,
+          "invalid_pump_ids": [],
+          "failure_modes_mentioned": [
+            "cavitation"
+          ],
+          "has_no_data_hedge": false
+        },
+        "assertions": [
+          {
+            "assertion": "must mention ISO 10816 zone",
+            "passed": true
+          },
+          {
+            "assertion": "must cite sensor_timeseries.csv with row numbers",
+            "passed": true
+          },
+          {
+            "assertion": "must mention bearing temperature",
+            "passed": true
+          },
+          {
+            "assertion": "must include risk level",
+            "passed": true
+          }
+        ],
+        "assertions_passed": "4/4"
+      }
+    },
+    {
+      "scenario": "fleet_risk_overview",
+      "score": 0.943,
+      "pass": true,
+      "duration_ms": 72104.3,
+      "details": {
+        "score": 0.943,
+        "pass": true,
+        "citations": {
+          "has_citations": true,
+          "citation_count": 5,
+          "files_referenced": [
+            "vibration_baselines",
+            "pump_metadata",
+            "sensor_timeseries"
+          ],
+          "manuals_referenced": [],
+          "row_references": 2,
+          "cited_files": [
+            "vibration_baselines.csv",
+            "vibration_baselines.csv",
+            "sensor_timeseries.csv",
+            "sensor_timeseries.csv",
+            "pump_metadata.csv"
+          ]
+        },
+        "trajectory": {
+          "expected_tools": [
+            "check_vibration_zone",
+            "get_pump_profile"
+          ],
+          "actual_tools": [
+            "check_vibration_zone",
+            "check_vibration_zone",
+            "check_vibration_zone",
+            "check_vibration_zone",
+            "check_vibration_zone",
+            "check_vibration_zone",
+            "check_vibration_zone",
+            "check_vibration_zone",
+            "check_vibration_zone",
+            "check_vibration_zone",
+            "check_vibration_zone",
+            "check_vibration_zone",
+            "get_pump_profile",
+            "query_sensors"
+          ],
+          "missing_tools": [],
+          "extra_tools": [
+            "query_sensors"
+          ],
+          "trajectory_match": true,
+          "tool_count": 14
+        },
+        "groundedness": {
+          "total_numbers": 79,
+          "grounded_numbers": 61,
+          "ungrounded_numbers": [
+            "10816",
+            "65.87",
+            "65",
+            "100",
+            "080",
+            "32",
+            "33",
+            "65.87",
+            "65",
+            "78"
+          ],
+          "groundedness_ratio": 0.772,
+          "invalid_pump_ids": [],
+          "failure_modes_mentioned": [],
+          "has_no_data_hedge": false
+        },
+        "assertions": [
+          {
+            "assertion": "must rank pumps by risk level",
+            "passed": true
+          },
+          {
+            "assertion": "must mention vibration zones for pumps",
+            "passed": true
+          },
+          {
+            "assertion": "must cite vibration_baselines.csv",
+            "passed": true
+          },
+          {
+            "assertion": "must include criticality ratings",
+            "passed": true
+          }
+        ],
+        "assertions_passed": "4/4"
+      }
+    },
+    {
+      "scenario": "diagnosis_bearing_wear",
+      "score": 0.862,
+      "pass": true,
+      "duration_ms": 38010.3,
+      "details": {
+        "score": 0.862,
+        "pass": true,
+        "citations": {
+          "has_citations": true,
+          "citation_count": 9,
+          "files_referenced": [
+            "failure_event_log",
+            "vibration_baselines",
+            "pump_metadata",
+            "failure_mode_reference",
+            "sensor_timeseries",
+            "alarm_history"
+          ],
+          "manuals_referenced": [
+            "flowserve_pvxm3"
+          ],
+          "row_references": 3,
+          "cited_files": [
+            "sensor_timeseries.csv",
+            "sensor_timeseries.csv",
+            "sensor_timeseries.csv",
+            "pump_metadata.csv",
+            "vibration_baselines.csv",
+            "alarm_history.csv",
+            "failure_event_log.csv",
+            "failure_mode_reference.csv",
+            "pump_metadata.csv"
+          ]
+        },
+        "trajectory": {
+          "expected_tools": [
+            "query_sensors",
+            "classify_failure_mode",
+            "search_oem_manual"
+          ],
+          "actual_tools": [
+            "query_sensors",
+            "check_vibration_zone",
+            "get_pump_profile",
+            "search_alarms",
+            "query_sensors",
+            "classify_failure_mode",
+            "search_oem_manual"
+          ],
+          "missing_tools": [],
+          "extra_tools": [
+            "check_vibration_zone",
+            "get_pump_profile",
+            "search_alarms"
+          ],
+          "trajectory_match": true,
+          "tool_count": 7
+        },
+        "groundedness": {
+          "total_numbers": 76,
+          "grounded_numbers": 34,
+          "ungrounded_numbers": [
+            "65.57",
+            "625532",
+            "48",
+            "65.01",
+            "60.37",
+            "69.40",
+            "618620",
+            "625532",
+            "12",
+            "623804"
+          ],
+          "groundedness_ratio": 0.447,
+          "invalid_pump_ids": [],
+          "failure_modes_mentioned": [
+            "bearing_wear",
+            "misalignment"
+          ],
+          "has_no_data_hedge": false
+        },
+        "assertions": [
+          {
+            "assertion": "must diagnose bearing_wear as top failure mode",
+            "passed": true
+          },
+          {
+            "assertion": "must cite failure_mode_reference.csv",
+            "passed": true
+          },
+          {
+            "assertion": "must recommend inspection or shutdown",
+            "passed": true
+          },
+          {
+            "assertion": "must cite sensor data showing temperature trend",
+            "passed": true
+          }
+        ],
+        "assertions_passed": "4/4"
+      }
+    },
+    {
+      "scenario": "retrospective_evt002",
+      "score": 0.875,
+      "pass": true,
+      "duration_ms": 79758.1,
+      "details": {
+        "score": 0.875,
+        "pass": true,
+        "citations": {
+          "has_citations": true,
+          "citation_count": 4,
+          "files_referenced": [
+            "failure_event_log",
+            "operating_schedule",
+            "failure_mode_reference"
+          ],
+          "manuals_referenced": [
+            "sulzer_cpt50"
+          ],
+          "row_references": 0,
+          "cited_files": [
+            "failure_mode_reference.csv",
+            "operating_schedule.csv",
+            "operating_schedule.csv",
+            "failure_event_log.csv"
+          ]
+        },
+        "trajectory": {
+          "expected_tools": [
+            "query_sensors",
+            "classify_failure_mode",
+            "search_alarms"
+          ],
+          "actual_tools": [
+            "query_sensors",
+            "search_alarms",
+            "get_pump_profile",
+            "query_sensors",
+            "search_alarms",
+            "compute_cost",
+            "get_maintenance_history",
+            "query_sensors",
+            "search_alarms",
+            "get_operating_status",
+            "classify_failure_mode",
+            "search_oem_manual",
+            "classify_failure_mode"
+          ],
+          "missing_tools": [],
+          "extra_tools": [
+            "compute_cost",
+            "get_maintenance_history",
+            "search_oem_manual",
+            "get_operating_status",
+            "get_pump_profile"
+          ],
+          "trajectory_match": true,
+          "tool_count": 13
+        },
+        "groundedness": {
+          "total_numbers": 90,
+          "grounded_numbers": 45,
+          "ungrounded_numbers": [
+            "18",
+            "18",
+            "15",
+            "14.38",
+            "21.8",
+            "30",
+            "320",
+            "21",
+            "70",
+            "21.8"
+          ],
+          "groundedness_ratio": 0.5,
+          "invalid_pump_ids": [],
+          "failure_modes_mentioned": [
+            "cavitation"
+          ],
+          "has_no_data_hedge": false
+        },
+        "assertions": [
+          {
+            "assertion": "must identify EVT-002 as cavitation event",
+            "passed": true
+          },
+          {
+            "assertion": "must show pre_failure labels in sensor data",
+            "passed": true
+          },
+          {
+            "assertion": "must cite failure_event_log.csv",
+            "passed": true
+          },
+          {
+            "assertion": "must show timeline of sensor changes",
+            "passed": true
+          }
+        ],
+        "assertions_passed": "4/4"
+      }
+    },
+    {
+      "scenario": "maintenance_planning_p08",
+      "score": 0.847,
+      "pass": true,
+      "duration_ms": 26131.9,
+      "details": {
+        "score": 0.847,
+        "pass": true,
+        "citations": {
+          "has_citations": true,
+          "citation_count": 6,
+          "files_referenced": [
+            "failure_event_log",
+            "pump_metadata",
+            "spare_parts_inventory",
+            "maintenance_work_orders"
+          ],
+          "manuals_referenced": [
+            "sulzer_cpt50"
+          ],
+          "row_references": 1,
+          "cited_files": [
+            "spare_parts_inventory.csv",
+            "pump_metadata.csv",
+            "maintenance_work_orders.csv",
+            "pump_maintenance_history.json",
+            "maintenance_work_orders.csv",
+            "failure_event_log.csv"
+          ]
+        },
+        "trajectory": {
+          "expected_tools": [
+            "check_spare_parts",
+            "compute_cost",
+            "get_maintenance_history",
+            "search_oem_manual"
+          ],
+          "actual_tools": [
+            "get_pump_profile",
+            "check_spare_parts",
+            "compute_cost",
+            "get_maintenance_history",
+            "search_oem_manual"
+          ],
+          "missing_tools": [],
+          "extra_tools": [
+            "get_pump_profile"
+          ],
+          "trajectory_match": true,
+          "tool_count": 5
+        },
+        "groundedness": {
+          "total_numbers": 80,
+          "grounded_numbers": 31,
+          "ungrounded_numbers": [
+            "2025",
+            "18",
+            "380",
+            "84",
+            "6308",
+            "6308",
+            "2025",
+            "18",
+            "0028",
+            "573.69"
+          ],
+          "groundedness_ratio": 0.388,
+          "invalid_pump_ids": [],
+          "failure_modes_mentioned": [],
+          "has_no_data_hedge": false
+        },
+        "assertions": [
+          {
+            "assertion": "must check spare_parts_inventory.csv",
+            "passed": true
+          },
+          {
+            "assertion": "must show bearing parts availability",
+            "passed": true
+          },
+          {
+            "assertion": "must reference maintenance history",
+            "passed": true
+          }
+        ],
+        "assertions_passed": "3/3"
+      }
+    },
+    {
+      "scenario": "seal_failure_diagnosis",
+      "score": 0.863,
+      "pass": true,
+      "duration_ms": 54104.5,
+      "details": {
+        "score": 0.863,
+        "pass": true,
+        "citations": {
+          "has_citations": true,
+          "citation_count": 16,
+          "files_referenced": [
+            "failure_event_log",
+            "vibration_baselines",
+            "pump_metadata",
+            "failure_mode_reference",
+            "sensor_timeseries",
+            "maintenance_work_orders",
+            "cost_tracking",
+            "alarm_history",
+            "spare_parts_inventory"
+          ],
+          "manuals_referenced": [
+            "ksb_etanorm"
+          ],
+          "row_references": 2,
+          "cited_files": [
+            "sensor_timeseries.csv",
+            "alarm_history.csv",
+            "sensor_timeseries.csv",
+            "vibration_baselines.csv",
+            "alarm_history.csv",
+            "alarm_history.csv",
+            "alarm_history.csv",
+            "failure_event_log.csv",
+            "pump_metadata.csv",
+            "maintenance_work_orders.csv",
+            "spare_parts_inventory.csv",
+            "failure_mode_reference.csv",
+            "ksb_etanorm_manual.md",
+            "ksb_etanorm_manual.md",
+            "ksb_etanorm_manual.md",
+            "failure_event_log.csv"
+          ]
+        },
+        "trajectory": {
+          "expected_tools": [
+            "classify_failure_mode",
+            "search_alarms",
+            "check_spare_parts",
+            "search_oem_manual"
+          ],
+          "actual_tools": [
+            "query_sensors",
+            "get_pump_profile",
+            "search_alarms",
+            "classify_failure_mode",
+            "get_maintenance_history",
+            "check_spare_parts",
+            "search_oem_manual",
+            "check_vibration_zone",
+            "compute_cost"
+          ],
+          "missing_tools": [],
+          "extra_tools": [
+            "check_vibration_zone",
+            "compute_cost",
+            "get_maintenance_history",
+            "get_pump_profile",
+            "query_sensors"
+          ],
+          "trajectory_match": true,
+          "tool_count": 9
+        },
+        "groundedness": {
+          "total_numbers": 162,
+          "grounded_numbers": 73,
+          "ungrounded_numbers": [
+            "100",
+            "080",
+            "24",
+            "622074",
+            "625530",
+            "2025",
+            "10",
+            "10",
+            "22",
+            "153.4"
+          ],
+          "groundedness_ratio": 0.451,
+          "invalid_pump_ids": [],
+          "failure_modes_mentioned": [
+            "seal_failure",
+            "cavitation"
+          ],
+          "has_no_data_hedge": false
+        },
+        "assertions": [
+          {
+            "assertion": "must diagnose seal_failure",
+            "passed": true
+          },
+          {
+            "assertion": "must mention 8-hour lead time",
+            "passed": true
+          },
+          {
+            "assertion": "must recommend immediate action",
+            "passed": true
+          }
+        ],
+        "assertions_passed": "3/3"
+      }
+    },
+    {
+      "scenario": "cost_comparison",
+      "score": 0.89,
+      "pass": true,
+      "duration_ms": 46065.7,
+      "details": {
+        "score": 0.89,
+        "pass": true,
+        "citations": {
+          "has_citations": true,
+          "citation_count": 13,
+          "files_referenced": [
+            "failure_event_log",
+            "cost_tracking",
+            "pump_metadata"
+          ],
+          "manuals_referenced": [],
+          "row_references": 6,
+          "cited_files": [
+            "failure_event_log.csv",
+            "failure_event_log.csv",
+            "cost_tracking.csv",
+            "failure_event_log.csv",
+            "cost_tracking.csv",
+            "cost_tracking.csv",
+            "failure_event_log.csv",
+            "failure_event_log.csv",
+            "cost_tracking.csv",
+            "failure_event_log.csv",
+            "pump_metadata.csv",
+            "pump_metadata.csv",
+            "pump_metadata.csv"
+          ]
+        },
+        "trajectory": {
+          "expected_tools": [
+            "compute_cost"
+          ],
+          "actual_tools": [
+            "compute_cost",
+            "get_pump_profile",
+            "compute_cost",
+            "compute_cost",
+            "compute_cost",
+            "compute_cost",
+            "compute_cost",
+            "search_alarms",
+            "search_alarms",
+            "compute_cost",
+            "compute_cost",
+            "compute_cost"
+          ],
+          "missing_tools": [],
+          "extra_tools": [
+            "get_pump_profile",
+            "search_alarms"
+          ],
+          "trajectory_match": true,
+          "tool_count": 12
+        },
+        "groundedness": {
+          "total_numbers": 202,
+          "grounded_numbers": 113,
+          "ungrounded_numbers": [
+            "12",
+            "84",
+            "87.5",
+            "66",
+            "166",
+            "42.9",
+            "39",
+            "849",
+            "16",
+            "241"
+          ],
+          "groundedness_ratio": 0.559,
+          "invalid_pump_ids": [],
+          "failure_modes_mentioned": [],
+          "has_no_data_hedge": false
+        },
+        "assertions": [
+          {
+            "assertion": "must show proactive repair cost estimate",
+            "passed": true
+          },
+          {
+            "assertion": "must show actual reactive failure costs",
+            "passed": true
+          },
+          {
+            "assertion": "must recommend proactive approach",
+            "passed": true
+          }
+        ],
+        "assertions_passed": "3/3"
+      }
+    },
+    {
+      "scenario": "vibration_zone_p06",
+      "score": 0.9,
+      "pass": true,
+      "duration_ms": 11589.3,
+      "details": {
+        "score": 0.9,
+        "pass": true,
+        "citations": {
+          "has_citations": true,
+          "citation_count": 1,
+          "files_referenced": [
+            "vibration_baselines",
+            "sensor_timeseries"
+          ],
+          "manuals_referenced": [],
+          "row_references": 2,
+          "cited_files": [
+            "vibration_baselines.csv"
+          ]
+        },
+        "trajectory": {
+          "expected_tools": [
+            "check_vibration_zone"
+          ],
+          "actual_tools": [
+            "check_vibration_zone"
+          ],
+          "missing_tools": [],
+          "extra_tools": [],
+          "trajectory_match": true,
+          "tool_count": 1
+        },
+        "groundedness": {
+          "total_numbers": 15,
+          "grounded_numbers": 9,
+          "ungrounded_numbers": [
+            "10816",
+            "32",
+            "37",
+            "624955",
+            "625531",
+            "65.87"
+          ],
+          "groundedness_ratio": 0.6,
+          "invalid_pump_ids": [],
+          "failure_modes_mentioned": [],
+          "has_no_data_hedge": false
+        },
+        "assertions": [
+          {
+            "assertion": "must classify P-06 into a specific zone",
+            "passed": true
+          },
+          {
+            "assertion": "must cite vibration_baselines.csv",
+            "passed": true
+          },
+          {
+            "assertion": "must show per-axis vibration values",
+            "passed": true
+          },
+          {
+            "assertion": "must recommend action based on zone",
+            "passed": true
+          }
+        ],
+        "assertions_passed": "4/4"
+      }
+    }
+  ]
+}

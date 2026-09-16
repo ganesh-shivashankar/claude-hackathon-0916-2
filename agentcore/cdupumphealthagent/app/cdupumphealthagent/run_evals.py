@@ -44,8 +44,9 @@ SCENARIOS = json.loads(
 
 
 def run_scenario(scenario: dict, agent: Agent) -> dict:
-    name = scenario["scenario_name"]
-    prompt = scenario["prompt"]
+    name = scenario.get("scenario_id", scenario.get("scenario_name", "unknown"))
+    turns = scenario.get("turns", [])
+    prompt = turns[0]["input"] if turns else scenario.get("prompt", "")
     assertions = scenario.get("assertions", [])
     expected_trajectory = scenario.get("expected_trajectory", [])
 
