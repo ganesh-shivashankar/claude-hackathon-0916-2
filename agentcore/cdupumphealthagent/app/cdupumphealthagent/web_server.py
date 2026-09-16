@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""Web server for demo UI. Wraps the Strands agent with REST endpoints and trace visualization.
+"""Web server for demo UI. Wraps the Strands agent with REST endpoints.
 
-This is the demo server — the production deployment uses AgentCore runtime (main.py).
 Run: python web_server.py
 """
 
+import asyncio
+import csv
 import json
 import time
+import uuid
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -16,7 +19,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from strands import Agent
 
-from config import SERVER_PORT, ALL_PUMP_IDS
+from config import SERVER_PORT, ALL_PUMP_IDS, PUMP_METADATA, DATA_DIR
 from model.load import load_model
 from tracing import TraceCollector
 
@@ -43,25 +46,23 @@ ALL_TOOLS = [
 app = FastAPI(title="CDU Pump Predictive Maintenance Agent")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
-agent = Agent(
-    model=load_model(),
-    system_prompt=SYSTEM_PROMPT,
-    tools=ALL_TOOLS,
-    callback_handler=None,
-)
-
+executor = ThreadPoolExecutor(max_workers=4)
 trace_history: list[dict] = []
+conversation_messages: list[dict] = []
+jobs: dict[str, dict] = {}
+
+
+def _make_agent():
+    return Agent(
+        model=load_model(),
+        system_prompt=SYSTEM_PROMPT,
+        tools=ALL_TOOLS,
+        callback_handler=None,
+    )
 
 
 class ChatRequest(BaseModel):
     message: str
-
-
-class ChatResponse(BaseModel):
-    response: str
-    citations: list
-    trace: dict
-    tool_calls: int = 0
 
 
 def _extract_citations_from_trace(trace: dict) -> list:
@@ -72,14 +73,16 @@ def _extract_citations_from_trace(trace: dict) -> list:
     return citations
 
 
-@app.post("/api/chat", response_model=ChatResponse)
-def chat(req: ChatRequest):
+def _run_agent_sync(message: str) -> dict:
+    agent = _make_agent()
+    agent.messages = list(conversation_messages)
+
     collector = TraceCollector()
-    collector.start_invocation(req.message)
+    collector.start_invocation(message)
 
     start = time.time()
     try:
-        result = agent(req.message)
+        result = agent(message)
         response_text = str(result)
     except Exception as e:
         response_text = f"Error: {e}"
@@ -115,64 +118,136 @@ def chat(req: ChatRequest):
     trace = collector.get_trace() or {}
     trace["total_duration_ms"] = round(duration, 1)
 
+    conversation_messages.clear()
+    conversation_messages.extend(agent.messages)
+
+    citations = _extract_citations_from_trace(trace)
+
     trace_history.append(trace)
     if len(trace_history) > 50:
         trace_history.pop(0)
 
-    citations = _extract_citations_from_trace(trace)
+    return {
+        "response": response_text,
+        "citations": citations,
+        "trace": trace,
+        "tool_calls": trace.get("total_tool_calls", 0),
+    }
 
-    return ChatResponse(
-        response=response_text,
-        citations=citations,
-        trace=trace,
-        tool_calls=trace.get("total_tool_calls", 0),
-    )
+
+def _run_agent_for_job(job_id: str, message: str):
+    result = _run_agent_sync(message)
+    result["status"] = "done"
+    jobs[job_id] = result
+
+
+@app.post("/api/chat")
+async def chat(req: ChatRequest):
+    """Returns full response directly. Also supports polling via job_id if poll=true."""
+    loop = asyncio.get_event_loop()
+    result = await loop.run_in_executor(executor, _run_agent_sync, req.message)
+    return result
+
+
+@app.post("/api/chat/async")
+async def chat_async(req: ChatRequest):
+    """Async version — returns job_id for polling."""
+    job_id = str(uuid.uuid4())[:8]
+    jobs[job_id] = {"status": "processing"}
+    loop = asyncio.get_event_loop()
+    loop.run_in_executor(executor, _run_agent_for_job, job_id, req.message)
+    return {"job_id": job_id, "status": "processing"}
+
+
+@app.get("/api/chat/status/{job_id}")
+def chat_status(job_id: str):
+    job = jobs.get(job_id)
+    if not job:
+        return {"status": "not_found"}
+    return job
 
 
 @app.post("/api/reset")
 def reset_conversation():
-    global agent
-    agent = Agent(
-        model=load_model(),
-        system_prompt=SYSTEM_PROMPT,
-        tools=ALL_TOOLS,
-        callback_handler=None,
-    )
+    conversation_messages.clear()
     trace_history.clear()
+    jobs.clear()
     return {"status": "ok"}
 
 
-@app.get("/api/fleet")
-def fleet():
+def _load_fleet_fast():
+    baselines = {}
+    with open(DATA_DIR / "vibration_baselines.csv") as f:
+        for row in csv.DictReader(f):
+            pid = row["pump_id"]
+            if pid not in baselines:
+                baselines[pid] = []
+            baselines[pid].append({
+                "baseline": float(row["baseline_mms"]),
+                "alert": float(row["alert_threshold_mms"]),
+                "alarm": float(row["alarm_threshold_mms"]),
+                "col": {"Drive End Horizontal": "vibration_x_mms",
+                        "Drive End Vertical": "vibration_y_mms",
+                        "Drive End Axial": "vibration_axial_mms",
+                        "Non-Drive End Horizontal": "vibration_x_mms",
+                        "Non-Drive End Vertical": "vibration_y_mms",
+                        "Non-Drive End Axial": "vibration_axial_mms"}.get(row["measurement_point"], "vibration_x_mms"),
+            })
+
+    latest = {}
+    with open(DATA_DIR / "sensor_timeseries.csv") as f:
+        for row in csv.DictReader(f):
+            latest[row["pump_id"]] = row
+
     results = []
     for pid in ALL_PUMP_IDS:
-        profile = get_pump_profile(pump_id=pid)
-        vib = check_vibration_zone(pump_id=pid)
+        meta = PUMP_METADATA.get(pid, {})
+        row = latest.get(pid, {})
+        zone = "A"
+        if pid in baselines and row:
+            for bl in baselines[pid]:
+                val = float(row.get(bl["col"], 0))
+                if val > bl["alarm"]:
+                    z = "D"
+                elif val > bl["alert"]:
+                    z = "C"
+                elif val > bl["baseline"] * 1.2:
+                    z = "B"
+                else:
+                    z = "A"
+                if z > zone:
+                    zone = z
+
+        zone_labels = {"A": "Good", "B": "Acceptable", "C": "Unsatisfactory", "D": "Dangerous"}
         results.append({
             "pump_id": pid,
-            "model": profile.get("model", "Unknown"),
-            "manufacturer": profile.get("manufacturer", "Unknown"),
-            "service_fluid": profile.get("service_fluid", "Unknown"),
-            "criticality": profile.get("criticality_rating", 0),
-            "vibration_zone": vib.get("overall_zone", "?"),
-            "vibration_status": vib.get("overall_status", "Unknown"),
-            "bearing_temp_c": vib.get("bearing_temp_c"),
+            "model": meta.get("pump_model", "Unknown"),
+            "manufacturer": meta.get("manufacturer", "Unknown"),
+            "service_fluid": meta.get("service_fluid", "Unknown"),
+            "criticality": int(meta.get("criticality_rating", 0)),
+            "vibration_zone": zone,
+            "vibration_status": zone_labels.get(zone, "Unknown"),
+            "bearing_temp_c": float(row.get("bearing_temp_c", 0)) if row else None,
         })
     return results
 
 
+@app.get("/api/fleet")
+async def fleet():
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(executor, _load_fleet_fast)
+
+
 @app.get("/api/pump/{pump_id}")
-def pump_detail(pump_id: str):
-    profile = get_pump_profile(pump_id=pump_id)
-    vib = check_vibration_zone(pump_id=pump_id)
-    alarms = search_alarms(pump_id=pump_id)
-    maintenance = get_maintenance_history(pump_id=pump_id)
-    return {
-        "profile": profile,
-        "vibration": vib,
-        "recent_alarms": alarms,
-        "maintenance_history": maintenance,
-    }
+async def pump_detail(pump_id: str):
+    def _load():
+        profile = get_pump_profile(pump_id=pump_id)
+        vib = check_vibration_zone(pump_id=pump_id)
+        alarms = search_alarms(pump_id=pump_id)
+        maintenance = get_maintenance_history(pump_id=pump_id)
+        return {"profile": profile, "vibration": vib, "recent_alarms": alarms, "maintenance_history": maintenance}
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(executor, _load)
 
 
 @app.get("/api/traces")
@@ -191,8 +266,12 @@ def get_latest_trace():
 def root():
     index = STATIC_DIR / "index.html"
     if index.exists():
-        return HTMLResponse(index.read_text())
-    return HTMLResponse("<h1>CDU Pump Health Monitor</h1><p>Frontend not built yet.</p>")
+        return HTMLResponse(index.read_text(), headers={
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": "0",
+        })
+    return HTMLResponse("<h1>CDU Pump Health Monitor</h1>")
 
 
 if STATIC_DIR.exists():
@@ -202,4 +281,4 @@ if STATIC_DIR.exists():
 if __name__ == "__main__":
     import uvicorn
     print(f"Starting CDU Pump Health Monitor on port {SERVER_PORT}...")
-    uvicorn.run(app, host="0.0.0.0", port=SERVER_PORT)
+    uvicorn.run(app, host="0.0.0.0", port=SERVER_PORT, timeout_keep_alive=300)

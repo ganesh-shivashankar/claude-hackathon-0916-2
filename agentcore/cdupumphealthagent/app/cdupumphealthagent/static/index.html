@@ -1230,7 +1230,10 @@ body {
   // ===== FLEET PANEL =====
   async function loadFleet() {
     try {
-      const res = await fetch('/api/fleet');
+      const ctrl = new AbortController();
+      const tid = setTimeout(() => ctrl.abort(), 30000);
+      const res = await fetch('/api/fleet', { signal: ctrl.signal });
+      clearTimeout(tid);
       if (!res.ok) throw new Error('Fleet API error');
       fleetData = await res.json();
       renderFleet();
@@ -1347,31 +1350,68 @@ body {
     elChips.style.display = 'none';
 
     try {
-      const res = await fetch('/api/chat', {
+      // Submit job
+      const submitRes = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text }),
       });
+      if (!submitRes.ok) throw new Error('Chat API returned ' + submitRes.status);
+      const submitData = await submitRes.json();
 
-      if (!res.ok) throw new Error('Chat API returned ' + res.status);
-      const data = await res.json();
+      // If response already contains the full result (no job_id), use it directly
+      if (submitData.response) {
+        showTyping(false);
+        addMessage('agent', submitData.response);
+        queryCount++;
+        elStatQueries.textContent = queryCount;
+        latestCitations = submitData.citations || [];
+        if (submitData.trace && submitData.trace.citations) {
+          latestCitations = mergeUniqueCitations(latestCitations, submitData.trace.citations);
+        }
+        renderEvidence(latestCitations);
+        latestTrace = submitData.trace || null;
+        renderTrace(latestTrace);
+      } else if (submitData.job_id) {
+        // Poll for result
+        const jobId = submitData.job_id;
+        let attempts = 0;
+        const maxAttempts = 60; // 60 * 3s = 3 minutes max
+        let data = null;
 
-      showTyping(false);
-      addMessage('agent', data.response || '(no response)');
+        while (attempts < maxAttempts) {
+          await new Promise(r => setTimeout(r, 3000));
+          attempts++;
+          try {
+            const pollRes = await fetch('/api/chat/status/' + jobId);
+            if (!pollRes.ok) continue;
+            const pollData = await pollRes.json();
+            if (pollData.status === 'done') {
+              data = pollData;
+              break;
+            }
+          } catch (pollErr) {
+            // Network blip, keep polling
+          }
+        }
 
-      queryCount++;
-      elStatQueries.textContent = queryCount;
+        showTyping(false);
 
-      // Update evidence panel
-      latestCitations = data.citations || [];
-      if (data.trace && data.trace.citations) {
-        latestCitations = mergeUniqueCitations(latestCitations, data.trace.citations);
+        if (data) {
+          addMessage('agent', data.response || '(no response)');
+          queryCount++;
+          elStatQueries.textContent = queryCount;
+          latestCitations = data.citations || [];
+          if (data.trace && data.trace.citations) {
+            latestCitations = mergeUniqueCitations(latestCitations, data.trace.citations);
+          }
+          renderEvidence(latestCitations);
+          latestTrace = data.trace || null;
+          renderTrace(latestTrace);
+        } else {
+          addMessage('agent', '**Error:** Agent took too long to respond. Please try again.');
+        }
       }
-      renderEvidence(latestCitations);
-
-      // Update trace panel
-      latestTrace = data.trace || null;
-      renderTrace(latestTrace);
 
     } catch (e) {
       showTyping(false);
