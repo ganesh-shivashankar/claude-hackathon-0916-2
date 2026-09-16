@@ -1,0 +1,201 @@
+alarm_id,pump_id,timestamp,alarm_type,severity,trigger_value,duration_minutes,acknowledged
+ALM-00001,P-06,2025-07-01T01:00:00,Seal Leak Detected,Warning,136.5,21.7,Yes
+ALM-00002,P-11,2025-06-01T09:00:00,Cavitation Detected,Alarm,112.3,10.7,Yes
+ALM-00003,P-11,2025-11-18T03:00:00,Cavitation Detected,Warning,142.8,37.4,Yes
+ALM-00004,P-12,2025-10-28T13:00:00,Cavitation Detected,Warning,129.9,6.2,Yes
+ALM-00005,P-05,2025-07-25T01:00:00,High Vibration,Alarm,134.1,74.0,Yes
+ALM-00006,P-08,2025-07-09T17:00:00,High Bearing Temp,Critical,121.7,150.0,Yes
+ALM-00007,P-12,2025-11-21T16:00:00,Seal Leak Detected,Alarm,74.4,150.4,Yes
+ALM-00008,P-07,2025-07-20T08:00:00,High Discharge Pressure,Alarm,136.4,92.0,Yes
+ALM-00009,P-07,2025-09-03T07:00:00,Motor Overcurrent,Alarm,122.6,48.8,No
+ALM-00010,P-03,2025-11-15T03:00:00,Cavitation Detected,Alarm,126.3,87.7,Yes
+ALM-00011,P-08,2025-10-07T18:00:00,Motor Overcurrent,Warning,88.3,176.6,Yes
+ALM-00012,P-01,2025-10-19T05:00:00,Motor Overcurrent,Critical,88.1,85.7,Yes
+ALM-00013,P-08,2025-07-22T22:00:00,High Vibration,Warning,137.0,90.9,Yes
+ALM-00014,P-02,2025-10-29T06:00:00,Cavitation Detected,Warning,115.5,130.3,Yes
+ALM-00015,P-02,2025-07-23T16:00:00,Cavitation Detected,Warning,115.0,61.6,Yes
+ALM-00016,P-11,2025-09-21T03:00:00,Flow Deviation,Warning,98.8,113.2,Yes
+ALM-00017,P-10,2025-06-13T06:00:00,High Bearing Temp,Warning,149.7,114.0,Yes
+ALM-00018,P-07,2025-07-01T20:00:00,High Bearing Temp,Critical,66.6,127.0,No
+ALM-00019,P-01,2025-09-11T05:00:00,High Vibration,Warning,87.5,143.5,Yes
+ALM-00020,P-04,2025-07-20T16:00:00,Flow Deviation,Alarm,67.5,123.0,Yes
+ALM-00021,P-10,2025-10-09T13:00:00,High Discharge Pressure,Alarm,96.1,164.4,No
+ALM-00022,P-08,2025-08-26T16:00:00,Seal Leak Detected,Critical,140.1,2.7,Yes
+ALM-00023,P-02,2025-07-24T22:00:00,Cavitation Detected,Warning,146.2,177.8,Yes
+ALM-00024,P-08,2025-08-25T08:00:00,Seal Leak Detected,Warning,60.7,179.9,Yes
+ALM-00025,P-10,2025-10-09T04:00:00,Motor Overcurrent,Alarm,52.2,54.0,Yes
+ALM-00026,P-05,2025-10-14T02:00:00,High Vibration,Alarm,147.4,155.8,Yes
+ALM-00027,P-05,2025-11-17T13:00:00,High Discharge Pressure,Alarm,69.0,144.5,Yes
+ALM-00028,P-11,2025-08-25T13:00:00,Low Suction Pressure,Critical,53.9,18.4,Yes
+ALM-00029,P-01,2025-10-29T11:00:00,Motor Overcurrent,Critical,82.7,24.5,Yes
+ALM-00030,P-03,2025-10-20T19:00:00,High Discharge Pressure,Warning,86.6,141.8,Yes
+ALM-00031,P-05,2025-11-19T06:00:00,Low Suction Pressure,Warning,146.7,164.6,Yes
+ALM-00032,P-12,2025-09-09T17:00:00,Motor Overcurrent,Warning,125.4,84.8,No
+ALM-00033,P-11,2025-08-17T00:00:00,Flow Deviation,Alarm,51.4,66.5,Yes
+ALM-00034,P-08,2025-07-13T04:00:00,Motor Overcurrent,Critical,88.1,135.1,Yes
+ALM-00035,P-02,2025-10-05T19:00:00,High Discharge Pressure,Alarm,106.1,5.5,Yes
+ALM-00036,P-11,2025-08-15T13:00:00,High Bearing Temp,Critical,80.2,148.5,Yes
+ALM-00037,P-02,2025-10-18T08:00:00,Low Suction Pressure,Warning,99.3,170.4,Yes
+ALM-00038,P-04,2025-07-04T04:00:00,Low Suction Pressure,Alarm,124.3,82.2,Yes
+ALM-00039,P-10,2025-10-22T01:00:00,Low Suction Pressure,Alarm,111.6,118.2,Yes
+ALM-00040,P-01,2025-09-04T11:00:00,Motor Overcurrent,Warning,135.5,80.4,Yes
+ALM-00041,P-11,2025-07-04T21:00:00,Motor Overcurrent,Alarm,56.1,162.4,Yes
+ALM-00042,P-04,2025-09-03T04:00:00,High Bearing Temp,Alarm,113.9,17.4,Yes
+ALM-00043,P-01,2025-06-08T06:00:00,Motor Overcurrent,Warning,70.5,178.0,Yes
+ALM-00044,P-10,2025-08-10T17:00:00,High Discharge Pressure,Warning,140.1,59.8,No
+ALM-00045,P-05,2025-06-01T23:00:00,Low Suction Pressure,Warning,61.0,97.7,Yes
+ALM-00046,P-03,2025-06-09T19:00:00,High Vibration,Warning,82.4,142.4,Yes
+ALM-00047,P-05,2025-07-30T11:00:00,High Vibration,Warning,124.6,133.8,Yes
+ALM-00048,P-08,2025-11-10T13:00:00,Motor Overcurrent,Alarm,72.2,107.3,Yes
+ALM-00049,P-12,2025-06-15T19:00:00,Seal Leak Detected,Alarm,149.9,116.2,No
+ALM-00050,P-07,2025-10-16T02:00:00,High Bearing Temp,Alarm,139.9,128.5,Yes
+ALM-00051,P-10,2025-09-18T22:00:00,Low Suction Pressure,Warning,108.5,23.6,Yes
+ALM-00052,P-07,2025-09-19T23:00:00,Seal Leak Detected,Alarm,129.3,91.5,Yes
+ALM-00053,P-11,2025-07-10T01:00:00,High Discharge Pressure,Alarm,83.9,81.8,Yes
+ALM-00054,P-07,2025-11-02T19:00:00,Flow Deviation,Critical,116.5,18.0,Yes
+ALM-00055,P-03,2025-10-06T18:00:00,Cavitation Detected,Warning,93.2,17.3,No
+ALM-00056,P-03,2025-10-06T04:00:00,High Vibration,Alarm,117.0,172.2,Yes
+ALM-00057,P-06,2025-10-19T05:00:00,Flow Deviation,Critical,81.2,10.2,Yes
+ALM-00058,P-10,2025-07-06T08:00:00,High Discharge Pressure,Warning,60.8,118.6,Yes
+ALM-00059,P-02,2025-10-04T11:00:00,Seal Leak Detected,Alarm,106.1,41.5,Yes
+ALM-00060,P-10,2025-06-09T23:00:00,Seal Leak Detected,Warning,80.9,33.3,Yes
+ALM-00061,P-06,2025-09-24T23:00:00,High Vibration,Warning,90.1,156.7,Yes
+ALM-00062,P-12,2025-07-19T10:00:00,High Vibration,Warning,92.0,134.6,Yes
+ALM-00063,P-03,2025-09-25T08:00:00,Motor Overcurrent,Warning,106.8,130.2,Yes
+ALM-00064,P-01,2025-06-29T23:00:00,Low Suction Pressure,Warning,58.2,136.0,No
+ALM-00065,P-11,2025-10-30T05:00:00,Flow Deviation,Alarm,71.6,109.7,Yes
+ALM-00066,P-02,2025-11-22T21:00:00,Motor Overcurrent,Alarm,109.3,20.8,Yes
+ALM-00067,P-11,2025-11-27T20:00:00,Seal Leak Detected,Warning,55.5,40.5,Yes
+ALM-00068,P-05,2025-08-09T18:00:00,High Discharge Pressure,Warning,62.0,137.8,Yes
+ALM-00069,P-12,2025-11-17T18:00:00,Flow Deviation,Warning,73.0,24.1,Yes
+ALM-00070,P-02,2025-09-29T21:00:00,Flow Deviation,Critical,142.1,8.6,No
+ALM-00071,P-10,2025-09-15T20:00:00,Flow Deviation,Alarm,79.0,73.4,Yes
+ALM-00072,P-01,2025-10-17T06:00:00,Motor Overcurrent,Warning,133.2,144.4,Yes
+ALM-00073,P-02,2025-10-02T12:00:00,Flow Deviation,Warning,102.4,44.6,Yes
+ALM-00074,P-05,2025-10-14T02:00:00,Motor Overcurrent,Warning,101.0,60.6,Yes
+ALM-00075,P-09,2025-07-09T22:00:00,High Discharge Pressure,Warning,114.5,63.8,Yes
+ALM-00076,P-04,2025-07-21T09:00:00,High Bearing Temp,Warning,65.3,46.8,Yes
+ALM-00077,P-03,2025-06-26T17:00:00,Cavitation Detected,Alarm,94.9,136.0,Yes
+ALM-00078,P-11,2025-09-19T07:00:00,Motor Overcurrent,Warning,113.1,79.7,Yes
+ALM-00079,P-10,2025-09-02T18:00:00,High Vibration,Warning,95.2,91.8,Yes
+ALM-00080,P-06,2025-06-20T10:00:00,Seal Leak Detected,Warning,59.0,116.4,Yes
+ALM-00081,P-07,2025-11-21T01:00:00,Cavitation Detected,Alarm,139.6,100.2,Yes
+ALM-00082,P-10,2025-11-01T12:00:00,High Discharge Pressure,Warning,145.8,109.3,Yes
+ALM-00083,P-02,2025-11-01T18:00:00,Motor Overcurrent,Critical,53.9,16.1,Yes
+ALM-00084,P-08,2025-10-28T10:00:00,Low Suction Pressure,Warning,90.9,67.7,Yes
+ALM-00085,P-11,2025-09-24T11:00:00,High Vibration,Critical,59.5,116.9,No
+ALM-00086,P-05,2025-10-10T22:00:00,Seal Leak Detected,Critical,110.3,153.4,Yes
+ALM-00087,P-06,2025-07-22T07:00:00,High Bearing Temp,Alarm,81.0,119.8,Yes
+ALM-00088,P-03,2025-10-12T18:00:00,High Bearing Temp,Warning,82.8,101.0,Yes
+ALM-00089,P-11,2025-07-14T14:00:00,High Bearing Temp,Critical,51.8,121.0,Yes
+ALM-00090,P-03,2025-09-14T10:00:00,High Discharge Pressure,Warning,72.7,170.6,Yes
+ALM-00091,P-03,2025-07-17T22:00:00,High Bearing Temp,Warning,127.1,152.2,No
+ALM-00092,P-01,2025-11-27T17:00:00,Motor Overcurrent,Alarm,66.2,24.5,Yes
+ALM-00093,P-12,2025-07-27T12:00:00,Cavitation Detected,Warning,73.8,74.5,Yes
+ALM-00094,P-10,2025-10-30T14:00:00,Seal Leak Detected,Critical,73.9,141.3,Yes
+ALM-00095,P-04,2025-11-08T02:00:00,Motor Overcurrent,Critical,96.2,170.5,Yes
+ALM-00096,P-07,2025-09-05T04:00:00,Flow Deviation,Warning,63.8,147.2,Yes
+ALM-00097,P-01,2025-08-25T08:00:00,Cavitation Detected,Warning,134.6,100.3,No
+ALM-00098,P-05,2025-07-13T13:00:00,High Bearing Temp,Warning,64.7,49.8,Yes
+ALM-00099,P-02,2025-10-28T07:00:00,High Discharge Pressure,Alarm,91.5,159.3,Yes
+ALM-00100,P-09,2025-10-14T07:00:00,Motor Overcurrent,Warning,72.5,70.1,No
+ALM-00101,P-02,2025-09-17T18:00:00,Motor Overcurrent,Warning,133.0,25.6,Yes
+ALM-00102,P-12,2025-07-18T08:00:00,Cavitation Detected,Alarm,51.9,111.1,Yes
+ALM-00103,P-03,2025-08-13T14:00:00,Flow Deviation,Warning,62.2,139.9,Yes
+ALM-00104,P-07,2025-08-21T09:00:00,Cavitation Detected,Warning,109.7,20.8,Yes
+ALM-00105,P-11,2025-06-06T14:00:00,High Discharge Pressure,Critical,111.5,26.7,Yes
+ALM-00106,P-10,2025-08-22T02:00:00,Flow Deviation,Warning,147.5,119.9,No
+ALM-00107,P-09,2025-06-24T02:00:00,High Vibration,Alarm,88.7,157.3,No
+ALM-00108,P-05,2025-10-06T10:00:00,High Vibration,Warning,123.3,142.1,Yes
+ALM-00109,P-10,2025-07-06T09:00:00,Motor Overcurrent,Warning,131.4,8.9,Yes
+ALM-00110,P-11,2025-07-30T18:00:00,Cavitation Detected,Critical,63.5,86.7,Yes
+ALM-00111,P-01,2025-11-04T05:00:00,Seal Leak Detected,Warning,54.2,8.8,Yes
+ALM-00112,P-09,2025-09-14T20:00:00,Flow Deviation,Alarm,114.7,85.7,No
+ALM-00113,P-06,2025-09-06T15:00:00,High Vibration,Critical,86.8,60.4,No
+ALM-00114,P-12,2025-10-15T12:00:00,Cavitation Detected,Alarm,119.2,61.7,Yes
+ALM-00115,P-09,2025-10-04T09:00:00,Seal Leak Detected,Warning,110.2,131.1,No
+ALM-00116,P-09,2025-08-01T14:00:00,Seal Leak Detected,Warning,79.6,19.4,Yes
+ALM-00117,P-10,2025-10-31T04:00:00,Flow Deviation,Warning,54.2,124.5,Yes
+ALM-00118,P-10,2025-09-29T08:00:00,Flow Deviation,Warning,55.7,115.5,Yes
+ALM-00119,P-06,2025-10-17T15:00:00,Low Suction Pressure,Warning,128.1,26.6,Yes
+ALM-00120,P-03,2025-06-12T21:00:00,High Bearing Temp,Warning,88.3,140.4,Yes
+ALM-00121,P-10,2025-06-12T01:00:00,Low Suction Pressure,Critical,94.4,81.5,Yes
+ALM-00122,P-10,2025-06-27T05:00:00,Low Suction Pressure,Alarm,77.9,66.7,Yes
+ALM-00123,P-01,2025-07-09T17:00:00,Low Suction Pressure,Alarm,61.8,93.7,Yes
+ALM-00124,P-12,2025-08-28T20:00:00,Cavitation Detected,Warning,141.6,179.3,Yes
+ALM-00125,P-04,2025-11-15T15:00:00,High Bearing Temp,Warning,139.9,153.7,Yes
+ALM-00126,P-02,2025-10-30T22:00:00,Motor Overcurrent,Critical,104.2,63.2,No
+ALM-00127,P-03,2025-09-11T09:00:00,Low Suction Pressure,Warning,70.1,92.1,No
+ALM-00128,P-04,2025-07-18T09:00:00,Cavitation Detected,Warning,96.7,65.6,Yes
+ALM-00129,P-10,2025-07-15T07:00:00,High Bearing Temp,Warning,121.9,56.4,Yes
+ALM-00130,P-07,2025-11-27T10:00:00,Flow Deviation,Alarm,114.2,14.2,Yes
+ALM-00131,P-08,2025-11-01T14:00:00,Motor Overcurrent,Warning,114.0,158.2,Yes
+ALM-00132,P-03,2025-08-02T02:00:00,Flow Deviation,Alarm,62.4,164.0,No
+ALM-00133,P-05,2025-07-23T05:00:00,Low Suction Pressure,Warning,84.6,58.8,Yes
+ALM-00134,P-05,2025-11-25T02:00:00,High Bearing Temp,Warning,77.4,36.1,Yes
+ALM-00135,P-10,2025-09-12T08:00:00,High Bearing Temp,Alarm,108.1,115.7,Yes
+ALM-00136,P-11,2025-07-29T10:00:00,Motor Overcurrent,Alarm,58.1,8.4,Yes
+ALM-00137,P-11,2025-08-30T08:00:00,High Discharge Pressure,Alarm,99.8,75.6,Yes
+ALM-00138,P-11,2025-09-07T20:00:00,Seal Leak Detected,Alarm,90.6,44.8,Yes
+ALM-00139,P-02,2025-11-02T19:00:00,High Vibration,Warning,70.4,79.7,Yes
+ALM-00140,P-06,2025-07-20T00:00:00,Motor Overcurrent,Critical,89.9,177.9,Yes
+ALM-00141,P-09,2025-10-05T11:00:00,High Bearing Temp,Warning,95.0,44.3,No
+ALM-00142,P-02,2025-07-19T02:00:00,High Vibration,Warning,91.8,170.2,Yes
+ALM-00143,P-06,2025-07-25T12:00:00,Motor Overcurrent,Warning,101.5,137.6,Yes
+ALM-00144,P-05,2025-11-18T05:00:00,Cavitation Detected,Warning,95.7,17.1,Yes
+ALM-00145,P-04,2025-08-22T04:00:00,Motor Overcurrent,Warning,138.2,10.0,Yes
+ALM-00146,P-05,2025-11-08T15:00:00,High Vibration,Warning,122.8,78.1,Yes
+ALM-00147,P-06,2025-10-16T15:00:00,High Vibration,Alarm,86.3,10.2,Yes
+ALM-00148,P-02,2025-09-07T12:00:00,Flow Deviation,Alarm,132.5,81.6,Yes
+ALM-00149,P-03,2025-07-11T13:00:00,High Bearing Temp,Alarm,105.8,67.8,Yes
+ALM-00150,P-03,2025-10-03T19:00:00,High Discharge Pressure,Alarm,54.5,92.1,Yes
+ALM-00151,P-12,2025-07-17T18:00:00,Motor Overcurrent,Alarm,139.3,94.0,No
+ALM-00152,P-06,2025-07-18T17:00:00,Motor Overcurrent,Warning,134.3,71.3,Yes
+ALM-00153,P-09,2025-09-23T19:00:00,Cavitation Detected,Critical,51.7,101.8,Yes
+ALM-00154,P-11,2025-09-22T01:00:00,High Bearing Temp,Alarm,122.5,105.5,Yes
+ALM-00155,P-10,2025-06-10T02:00:00,Cavitation Detected,Warning,127.6,174.1,Yes
+ALM-00156,P-12,2025-08-17T16:00:00,High Vibration,Alarm,122.1,87.0,Yes
+ALM-00157,P-03,2025-10-08T18:00:00,High Discharge Pressure,Warning,69.1,103.5,Yes
+ALM-00158,P-06,2025-10-29T12:00:00,Flow Deviation,Warning,100.2,74.9,Yes
+ALM-00159,P-12,2025-11-08T23:00:00,High Vibration,Critical,82.5,25.7,Yes
+ALM-00160,P-09,2025-11-11T06:00:00,Flow Deviation,Warning,103.3,172.2,Yes
+ALM-00161,P-11,2025-09-29T22:00:00,Seal Leak Detected,Alarm,77.9,87.7,Yes
+ALM-00162,P-04,2025-09-10T21:00:00,Seal Leak Detected,Warning,98.9,127.2,Yes
+ALM-00163,P-06,2025-11-11T18:00:00,Seal Leak Detected,Warning,88.0,22.8,Yes
+ALM-00164,P-06,2025-10-13T16:00:00,Low Suction Pressure,Warning,57.9,8.5,Yes
+ALM-00165,P-11,2025-10-29T23:00:00,Seal Leak Detected,Critical,103.9,86.8,Yes
+ALM-00166,P-03,2025-09-01T17:00:00,High Bearing Temp,Alarm,55.1,133.6,Yes
+ALM-00167,P-11,2025-08-17T00:00:00,High Discharge Pressure,Warning,97.2,18.9,Yes
+ALM-00168,P-01,2025-07-17T22:00:00,Low Suction Pressure,Alarm,97.6,117.9,Yes
+ALM-00169,P-05,2025-08-08T01:00:00,Motor Overcurrent,Warning,58.9,116.6,Yes
+ALM-00170,P-09,2025-08-19T06:00:00,High Vibration,Warning,143.4,75.8,Yes
+ALM-00171,P-07,2025-06-13T09:00:00,Cavitation Detected,Warning,142.6,168.7,Yes
+ALM-00172,P-01,2025-06-13T18:00:00,Seal Leak Detected,Alarm,83.5,108.9,Yes
+ALM-00173,P-11,2025-11-03T02:00:00,Cavitation Detected,Warning,69.3,153.3,Yes
+ALM-00174,P-06,2025-07-09T10:00:00,Low Suction Pressure,Critical,68.6,83.1,Yes
+ALM-00175,P-05,2025-09-24T01:00:00,High Discharge Pressure,Warning,90.5,110.4,Yes
+ALM-00176,P-09,2025-10-24T23:00:00,Motor Overcurrent,Warning,148.2,72.7,No
+ALM-00177,P-06,2025-11-10T23:00:00,High Discharge Pressure,Warning,125.4,47.7,Yes
+ALM-00178,P-05,2025-09-21T12:00:00,High Vibration,Warning,56.2,118.0,Yes
+ALM-00179,P-08,2025-07-11T08:00:00,Seal Leak Detected,Warning,139.5,73.6,Yes
+ALM-00180,P-12,2025-09-15T03:00:00,High Bearing Temp,Critical,111.5,165.0,Yes
+ALM-00181,P-03,2025-08-14T19:00:00,Cavitation Detected,Warning,87.4,82.4,Yes
+ALM-00182,P-09,2025-11-08T17:00:00,High Discharge Pressure,Warning,128.7,122.8,Yes
+ALM-00183,P-08,2025-11-27T08:00:00,Motor Overcurrent,Warning,132.9,165.2,No
+ALM-00184,P-04,2025-11-20T12:00:00,Low Suction Pressure,Warning,61.6,59.7,Yes
+ALM-00185,P-12,2025-08-10T02:00:00,Cavitation Detected,Warning,55.6,161.9,Yes
+ALM-00186,P-09,2025-07-16T00:00:00,Flow Deviation,Alarm,117.3,101.9,Yes
+ALM-00187,P-12,2025-09-14T04:00:00,High Vibration,Alarm,71.8,46.5,No
+ALM-00188,P-01,2025-06-25T22:00:00,Flow Deviation,Warning,56.0,126.4,Yes
+ALM-00189,P-08,2025-06-24T13:00:00,High Vibration,Warning,126.6,74.2,Yes
+ALM-00190,P-06,2025-10-22T11:00:00,Flow Deviation,Alarm,87.6,156.7,Yes
+ALM-00191,P-11,2025-07-16T09:00:00,Motor Overcurrent,Warning,102.9,32.9,Yes
+ALM-00192,P-01,2025-08-16T00:00:00,High Vibration,Warning,92.4,83.9,Yes
+ALM-00193,P-04,2025-10-08T11:00:00,High Discharge Pressure,Alarm,143.7,63.0,Yes
+ALM-00194,P-01,2025-07-09T12:00:00,Flow Deviation,Alarm,51.6,138.1,Yes
+ALM-00195,P-02,2025-08-10T08:00:00,High Bearing Temp,Alarm,120.3,7.0,Yes
+ALM-00196,P-04,2025-06-17T14:00:00,High Vibration,Alarm,125.4,79.6,Yes
+ALM-00197,P-03,2025-06-20T06:00:00,Seal Leak Detected,Warning,81.9,147.0,Yes
+ALM-00198,P-04,2025-09-18T10:00:00,Seal Leak Detected,Warning,91.4,177.4,Yes
+ALM-00199,P-01,2025-09-02T22:00:00,Low Suction Pressure,Critical,54.7,122.5,Yes
+ALM-00200,P-11,2025-09-26T13:00:00,Flow Deviation,Alarm,64.9,58.1,Yes

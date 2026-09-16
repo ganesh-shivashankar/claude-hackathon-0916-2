@@ -1,0 +1,6 @@
+failure_mode,primary_sensor_signature,secondary_indicators,typical_lead_time_hrs,recommended_action,iso_10816_zone_at_detection
+bearing_wear,bearing_temp_c rising >2C/hr,"vibration_x_mms elevated, motor_current_amps rising",24,Inspect and re-lubricate bearing; replace if temp >85C,C
+seal_failure,seal_leak_detected=True,"suction_pressure_psi dropping, flow_rate_m3hr declining",8,Isolate pump; replace mechanical seal,B
+cavitation,suction_pressure_psi <15 psi,"vibration_axial_mms elevated, flow_rate_m3hr erratic",4,Check suction line for blockage; increase NPSH,C
+impeller_damage,differential_pressure_psi declining,"flow_rate_m3hr declining, motor_current_amps dropping",48,Pull pump; inspect and replace impeller,B
+misalignment,vibration_axial_mms >3.5 mm/s,"bearing_temp_c elevated, motor_current_amps elevated",72,Realign pump-motor coupling; check baseplate,C

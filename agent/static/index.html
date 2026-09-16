@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDU Pump Health Monitor</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-primary: #1a1a2e;
+    --bg-card: #16213e;
+    --bg-input: #0f3460;
+    --bg-hover: #1a3a5c;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border: #1e3a5f;
+    --accent: #3b82f6;
+    --green: #22c55e;
+    --blue: #3b82f6;
+    --yellow: #eab308;
+    --red: #ef4444;
+    --shadow: 0 4px 24px rgba(0,0,0,0.3);
+    --radius: 10px;
+    --transition: 0.2s ease;
+  }
+
+  html, body {
+    height: 100%;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow: hidden;
+  }
+
+  /* ── Title bar ── */
+  .title-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+    border-bottom: 1px solid var(--border);
+    user-select: none;
+  }
+  .title-bar .icon {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 6px rgba(59,130,246,0.5));
+  }
+  .title-bar h1 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, #e2e8f0, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .title-bar .env-badge {
+    margin-left: auto;
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(34,197,94,0.15);
+    color: var(--green);
+    border: 1px solid rgba(34,197,94,0.3);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── Three-panel layout ── */
+  .panels {
+    display: grid;
+    grid-template-columns: 300px 1fr 340px;
+    height: calc(100vh - 53px);
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-right: 1px solid var(--border);
+  }
+  .panel:last-child { border-right: none; }
+
+  .panel-header {
+    padding: 16px 18px 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-card);
+    flex-shrink: 0;
+  }
+
+  /* ── Left panel: Fleet ── */
+  .fleet-panel { background: var(--bg-primary); }
+  .fleet-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+  }
+  .fleet-scroll::-webkit-scrollbar { width: 5px; }
+  .fleet-scroll::-webkit-scrollbar-track { background: transparent; }
+  .fleet-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .mfr-group { margin-bottom: 16px; }
+  .mfr-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    padding: 0 6px 8px;
+  }
+
+  .pump-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+  .pump-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 3px 0 0 3px;
+    transition: background var(--transition);
+  }
+  .pump-card[data-zone="A"]::before { background: var(--green); }
+  .pump-card[data-zone="B"]::before { background: var(--blue); }
+  .pump-card[data-zone="C"]::before { background: var(--yellow); }
+  .pump-card[data-zone="D"]::before { background: var(--red); }
+
+  .pump-card:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent);
+    transform: translateX(3px);
+    box-shadow: var(--shadow);
+  }
+  .pump-card.active {
+    border-color: var(--accent);
+    background: var(--bg-hover);
+    box-shadow: 0 0 0 1px var(--accent), var(--shadow);
+  }
+
+  .pump-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .pump-id {
+    font-weight: 700;
+    font-size: 0.95rem;
+    font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+  }
+  .zone-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .zone-A { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+  .zone-B { background: rgba(59,130,246,0.15); color: var(--blue); border: 1px solid rgba(59,130,246,0.3); }
+  .zone-C { background: rgba(234,179,8,0.15); color: var(--yellow); border: 1px solid rgba(234,179,8,0.3); }
+  .zone-D { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+
+  .pump-model {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+  .pump-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 0.7rem;
+  }
+  .pump-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .pump-stat-label {
+    color: var(--text-muted);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .pump-stat-value {
+    font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  /* ── Center panel: Chat ── */
+  .chat-panel { background: var(--bg-primary); }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .chat-messages::-webkit-scrollbar { width: 6px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .msg {
+    max-width: 85%;
+    padding: 14px 18px;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg-user {
+    align-self: flex-end;
+    background: var(--accent);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+  .msg-agent {
+    align-self: flex-start;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 4px;
+    color: var(--text-primary);
+  }
+  .msg-agent strong { color: #fff; }
+  .msg-agent h1, .msg-agent h2, .msg-agent h3, .msg-agent h4 {
+    margin: 10px 0 6px;
+    color: #fff;
+  }
+  .msg-agent h1 { font-size: 1.1rem; }
+  .msg-agent h2 { font-size: 1rem; }
+  .msg-agent h3 { font-size: 0.95rem; }
+  .msg-agent table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 10px 0;
+    font-size: 0.82rem;
+  }
+  .msg-agent th, .msg-agent td {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    text-align: left;
+  }
+  .msg-agent th {
+    background: rgba(59,130,246,0.12);
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .msg-agent code {
+    background: rgba(0,0,0,0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.85em;
+  }
+  .msg-agent pre {
+    background: rgba(0,0,0,0.35);
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 8px 0;
+  }
+  .msg-agent pre code {
+    background: none;
+    padding: 0;
+  }
+  .msg-agent ul, .msg-agent ol {
+    margin: 6px 0 6px 20px;
+  }
+  .msg-agent li { margin-bottom: 4px; }
+  .msg-agent p { margin-bottom: 8px; }
+  .msg-agent p:last-child { margin-bottom: 0; }
+
+  .msg-welcome {
+    background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(34,197,94,0.05));
+    border: 1px solid rgba(59,130,246,0.2);
+  }
+
+  /* Typing indicator */
+  .typing-indicator {
+    align-self: flex-start;
+    display: none;
+    gap: 5px;
+    padding: 14px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    border-bottom-left-radius: 4px;
+    animation: fadeIn 0.3s ease;
+  }
+  .typing-indicator.visible { display: flex; }
+  .typing-dot {
+    width: 8px; height: 8px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  /* Suggestion chips */
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 20px 4px;
+    flex-shrink: 0;
+  }
+  .chip {
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.3);
+    color: var(--accent);
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+  .chip:hover {
+    background: rgba(59,130,246,0.2);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 12px rgba(59,130,246,0.2);
+  }
+
+  /* Chat input */
+  .chat-input-area {
+    padding: 12px 20px 16px;
+    border-top: 1px solid var(--border);
+    background: var(--bg-card);
+    flex-shrink: 0;
+  }
+  .chat-input-wrap {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .chat-input {
+    flex: 1;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+  }
+  .chat-input::placeholder { color: var(--text-muted); }
+  .chat-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.15);
+  }
+  .send-btn {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    flex-shrink: 0;
+  }
+  .send-btn:hover {
+    background: #2563eb;
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(59,130,246,0.4);
+  }
+  .send-btn:active { transform: scale(0.97); }
+  .send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* ── Right panel: Evidence ── */
+  .evidence-panel { background: var(--bg-primary); }
+  .evidence-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+  }
+  .evidence-scroll::-webkit-scrollbar { width: 5px; }
+  .evidence-scroll::-webkit-scrollbar-track { background: transparent; }
+  .evidence-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .evidence-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-muted);
+    text-align: center;
+    gap: 12px;
+    padding: 40px;
+  }
+  .evidence-placeholder .icon { font-size: 2.5rem; opacity: 0.3; }
+  .evidence-placeholder p { font-size: 0.85rem; line-height: 1.5; }
+
+  .evidence-section {
+    margin-bottom: 14px;
+    animation: fadeIn 0.3s ease;
+  }
+  .evidence-section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius) var(--radius) 0 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-secondary);
+  }
+  .evidence-section-header .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .evidence-section-body {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+    padding: 12px;
+  }
+  .evidence-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(30,58,95,0.5);
+    font-size: 0.78rem;
+  }
+  .evidence-row:last-child { border-bottom: none; }
+  .evidence-key {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .evidence-value {
+    font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    color: var(--text-primary);
+    font-weight: 500;
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
+  }
+  .evidence-source {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed rgba(30,58,95,0.5);
+    font-style: italic;
+  }
+
+  /* Responsiveness */
+  @media (max-width: 1279px) {
+    .panels {
+      grid-template-columns: 260px 1fr 280px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Title Bar ── -->
+<div class="title-bar">
+  <span class="icon">&#9881;</span>
+  <h1>CDU Pump Health Monitor</h1>
+  <span class="env-badge">Live</span>
+</div>
+
+<!-- ── Panels ── -->
+<div class="panels">
+
+  <!-- Left: Fleet Health -->
+  <div class="panel fleet-panel">
+    <div class="panel-header">Fleet Health Overview</div>
+    <div class="fleet-scroll" id="fleet-list">
+      <div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted);font-size:0.85rem;">
+        Loading fleet data&hellip;
+      </div>
+    </div>
+  </div>
+
+  <!-- Center: Chat -->
+  <div class="panel chat-panel">
+    <div class="panel-header">Agent Chat</div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="msg msg-agent msg-welcome">
+        <strong>CDU Pump Health Agent</strong>
+        <p style="margin-top:8px;">Welcome to the Crude Distillation Unit pump monitoring system. I can help you with:</p>
+        <ul>
+          <li><strong>Health assessments</strong> &mdash; current status and ISO vibration zone for any pump</li>
+          <li><strong>Failure analysis</strong> &mdash; root cause investigation with sensor and maintenance data</li>
+          <li><strong>Parts &amp; inventory</strong> &mdash; check spare parts availability and lead times</li>
+          <li><strong>Risk rankings</strong> &mdash; fleet-wide reliability prioritization</li>
+        </ul>
+        <p>Select a pump on the left or ask a question below to get started.</p>
+      </div>
+      <div class="typing-indicator" id="typing">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>
+    <div class="suggestions" id="suggestions">
+      <div class="chip" data-msg="Which pumps are at highest risk?">Which pumps are at highest risk?</div>
+      <div class="chip" data-msg="What's the health of P-07?">What's the health of P-07?</div>
+      <div class="chip" data-msg="What happened before the P-03 cavitation failure?">What happened before the P-03 cavitation failure?</div>
+      <div class="chip" data-msg="Do we have parts to fix P-08's bearings?">Do we have parts to fix P-08's bearings?</div>
+    </div>
+    <div class="chat-input-area">
+      <div class="chat-input-wrap">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Ask about pump health, failures, or spare parts&hellip;" autocomplete="off" />
+        <button class="send-btn" id="send-btn" title="Send message">&#9654;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Evidence -->
+  <div class="panel evidence-panel">
+    <div class="panel-header">Evidence &amp; Citations</div>
+    <div class="evidence-scroll" id="evidence-content">
+      <div class="evidence-placeholder">
+        <div class="icon">&#128269;</div>
+        <p>Ask a question to see evidence here.<br/>Citations from sensor data, OEM manuals, maintenance records, and spare parts inventory will appear in this panel.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── DOM refs ── */
+  const fleetList    = document.getElementById('fleet-list');
+  const chatMessages = document.getElementById('chat-messages');
+  const typingEl     = document.getElementById('typing');
+  const suggestionsEl = document.getElementById('suggestions');
+  const chatInput    = document.getElementById('chat-input');
+  const sendBtn      = document.getElementById('send-btn');
+  const evidenceEl   = document.getElementById('evidence-content');
+
+  let isSending = false;
+
+  /* ── Manufacturer lookup ── */
+  const MFR_ORDER = ['Flowserve PVXM-3', 'Sulzer CPT-50', 'KSB Etanorm'];
+
+  /* ── Simple Markdown→HTML ── */
+  function md(text) {
+    if (!text) return '';
+    let html = text;
+
+    // Code blocks (``` ... ```)
+    html = html.replace(/```(\w*)\n([\s\S]*?)```/g, function (_, lang, code) {
+      return '<pre><code>' + escHtml(code.trimEnd()) + '</code></pre>';
+    });
+
+    // Tables
+    html = html.replace(/((?:\|.+\|(?:\r?\n|$))+)/g, function (tableBlock) {
+      const rows = tableBlock.trim().split('\n').filter(r => r.trim());
+      if (rows.length < 2) return tableBlock;
+      // Check if row 2 is a separator
+      const isSep = /^\|[\s\-:|]+\|$/.test(rows[1].trim());
+      let out = '<table>';
+      rows.forEach(function (row, i) {
+        if (i === 1 && isSep) return;
+        const cells = row.split('|').filter((_, ci, arr) => ci > 0 && ci < arr.length - 1);
+        const tag = (i === 0 && isSep) ? 'th' : 'td';
+        out += '<tr>' + cells.map(c => '<' + tag + '>' + c.trim() + '</' + tag + '>').join('') + '</tr>';
+      });
+      out += '</table>';
+      return out;
+    });
+
+    // Split remaining into lines for block processing
+    const lines = html.split('\n');
+    const processed = [];
+    let inList = false;
+
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i];
+
+      // Skip if inside a pre block (already handled)
+      if (line.includes('<pre>') || line.includes('</pre>') || line.includes('<table>') || line.includes('</table>')) {
+        processed.push(line);
+        continue;
+      }
+
+      // Headers
+      if (/^#### (.+)$/.test(line)) { line = '<h4>' + line.slice(5) + '</h4>'; }
+      else if (/^### (.+)$/.test(line)) { line = '<h3>' + line.slice(4) + '</h3>'; }
+      else if (/^## (.+)$/.test(line)) { line = '<h2>' + line.slice(3) + '</h2>'; }
+      else if (/^# (.+)$/.test(line)) { line = '<h1>' + line.slice(2) + '</h1>'; }
+
+      // List items
+      else if (/^[\-\*] (.+)$/.test(line)) {
+        if (!inList) { processed.push('<ul>'); inList = true; }
+        line = '<li>' + line.replace(/^[\-\*] /, '') + '</li>';
+      } else if (/^\d+\. (.+)$/.test(line)) {
+        if (!inList) { processed.push('<ol>'); inList = true; }
+        line = '<li>' + line.replace(/^\d+\. /, '') + '</li>';
+      } else {
+        if (inList) { processed.push('</ul>'); inList = false; }
+        if (line.trim() !== '' && !line.startsWith('<')) {
+          line = '<p>' + line + '</p>';
+        }
+      }
+
+      processed.push(line);
+    }
+    if (inList) processed.push('</ul>');
+
+    html = processed.join('\n');
+
+    // Inline: bold, italic, inline code
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+
+    return html;
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  /* ── Fleet loading ── */
+  async function loadFleet() {
+    try {
+      const res = await fetch('/api/fleet');
+      if (!res.ok) throw new Error('Fleet API returned ' + res.status);
+      const data = await res.json();
+      renderFleet(data);
+    } catch (e) {
+      console.warn('Fleet load failed, using fallback.', e);
+      renderFleetFallback();
+    }
+  }
+
+  function renderFleet(data) {
+    // data might be an array or {pumps: [...]}
+    const pumps = Array.isArray(data) ? data : (data.pumps || data.fleet || []);
+    if (!pumps.length) { renderFleetFallback(); return; }
+
+    // Group by manufacturer
+    const groups = {};
+    pumps.forEach(function (p) {
+      const mfr = p.manufacturer || p.model || 'Unknown';
+      if (!groups[mfr]) groups[mfr] = [];
+      groups[mfr].push(p);
+    });
+
+    let html = '';
+    // Render in preferred order, then any extras
+    const allKeys = Object.keys(groups);
+    const ordered = MFR_ORDER.filter(m => allKeys.includes(m));
+    allKeys.forEach(function (k) { if (!ordered.includes(k)) ordered.push(k); });
+
+    ordered.forEach(function (mfr) {
+      if (!groups[mfr]) return;
+      html += '<div class="mfr-group"><div class="mfr-label">' + escHtml(mfr) + '</div>';
+      groups[mfr].forEach(function (p) {
+        const zone = p.vibration_zone || p.zone || p.iso_zone || 'B';
+        const pumpId = p.pump_id || p.id || 'P-??';
+        const model = p.model_name || p.model || mfr;
+        const temp = p.bearing_temp != null ? p.bearing_temp + ' C' : '--';
+        const status = p.health_status || p.status || 'Unknown';
+        html += buildPumpCard(pumpId, model, zone, temp, status);
+      });
+      html += '</div>';
+    });
+
+    fleetList.innerHTML = html;
+    attachPumpClicks();
+  }
+
+  function renderFleetFallback() {
+    // Render 12 placeholder pumps
+    const pumps = [
+      { mfr: 'Flowserve PVXM-3', items: [
+        { id: 'P-01', zone: 'A', temp: '62', status: 'Normal' },
+        { id: 'P-02', zone: 'B', temp: '71', status: 'Watch' },
+        { id: 'P-03', zone: 'D', temp: '98', status: 'Critical' },
+        { id: 'P-04', zone: 'A', temp: '58', status: 'Normal' },
+      ]},
+      { mfr: 'Sulzer CPT-50', items: [
+        { id: 'P-05', zone: 'B', temp: '74', status: 'Watch' },
+        { id: 'P-06', zone: 'A', temp: '60', status: 'Normal' },
+        { id: 'P-07', zone: 'C', temp: '85', status: 'Alert' },
+        { id: 'P-08', zone: 'D', temp: '102', status: 'Critical' },
+      ]},
+      { mfr: 'KSB Etanorm', items: [
+        { id: 'P-09', zone: 'A', temp: '55', status: 'Normal' },
+        { id: 'P-10', zone: 'B', temp: '68', status: 'Watch' },
+        { id: 'P-11', zone: 'C', temp: '82', status: 'Alert' },
+        { id: 'P-12', zone: 'A', temp: '61', status: 'Normal' },
+      ]},
+    ];
+
+    let html = '';
+    pumps.forEach(function (g) {
+      html += '<div class="mfr-group"><div class="mfr-label">' + escHtml(g.mfr) + '</div>';
+      g.items.forEach(function (p) {
+        html += buildPumpCard(p.id, g.mfr, p.zone, p.temp + ' C', p.status);
+      });
+      html += '</div>';
+    });
+    fleetList.innerHTML = html;
+    attachPumpClicks();
+  }
+
+  function buildPumpCard(id, model, zone, temp, status) {
+    const zoneLabelMap = { A: 'Good', B: 'Satisfactory', C: 'Unsatisfactory', D: 'Unacceptable' };
+    const zoneLabel = zoneLabelMap[zone] || zone;
+    return '<div class="pump-card" data-zone="' + zone + '" data-pump="' + escHtml(id) + '">'
+      + '<div class="pump-card-top">'
+      + '<span class="pump-id">' + escHtml(id) + '</span>'
+      + '<span class="zone-badge zone-' + zone + '">Zone ' + zone + ' &mdash; ' + escHtml(zoneLabel) + '</span>'
+      + '</div>'
+      + '<div class="pump-model">' + escHtml(model) + '</div>'
+      + '<div class="pump-stats">'
+      + '<div class="pump-stat"><span class="pump-stat-label">Bearing Temp</span><span class="pump-stat-value">' + escHtml(temp) + '</span></div>'
+      + '<div class="pump-stat"><span class="pump-stat-label">Status</span><span class="pump-stat-value">' + escHtml(status) + '</span></div>'
+      + '<div class="pump-stat"><span class="pump-stat-label">Vib Zone</span><span class="pump-stat-value">' + zone + '</span></div>'
+      + '</div>'
+      + '</div>';
+  }
+
+  function attachPumpClicks() {
+    fleetList.querySelectorAll('.pump-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        const pumpId = card.getAttribute('data-pump');
+        // highlight
+        fleetList.querySelectorAll('.pump-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        // send chat
+        sendMessage('What is the health status of ' + pumpId + '?');
+      });
+    });
+  }
+
+  /* ── Chat ── */
+  function addMessage(text, role) {
+    const div = document.createElement('div');
+    div.className = 'msg msg-' + role;
+    if (role === 'agent') {
+      div.innerHTML = md(text);
+    } else {
+      div.textContent = text;
+    }
+    // Insert before typing indicator
+    chatMessages.insertBefore(div, typingEl);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function showTyping(show) {
+    typingEl.classList.toggle('visible', show);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  async function sendMessage(text) {
+    if (!text || !text.trim() || isSending) return;
+    text = text.trim();
+    isSending = true;
+    sendBtn.disabled = true;
+    chatInput.value = '';
+
+    // Hide suggestions after first use
+    suggestionsEl.style.display = 'none';
+
+    addMessage(text, 'user');
+    showTyping(true);
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text }),
+      });
+
+      if (!res.ok) throw new Error('Chat API error ' + res.status);
+      const data = await res.json();
+      showTyping(false);
+      addMessage(data.response || 'No response received.', 'agent');
+
+      // Update evidence
+      if (data.citations && data.citations.length > 0) {
+        renderEvidence(data.citations);
+      }
+    } catch (e) {
+      showTyping(false);
+      addMessage('Connection error: unable to reach the agent. Please check that the backend is running.', 'agent');
+      console.error(e);
+    } finally {
+      isSending = false;
+      sendBtn.disabled = false;
+      chatInput.focus();
+    }
+  }
+
+  /* Events */
+  sendBtn.addEventListener('click', function () { sendMessage(chatInput.value); });
+  chatInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(chatInput.value);
+    }
+  });
+
+  suggestionsEl.querySelectorAll('.chip').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      sendMessage(chip.getAttribute('data-msg'));
+    });
+  });
+
+  /* ── Evidence panel ── */
+  const sectionMeta = {
+    'sensor_data':          { label: 'Sensor Data',         color: 'var(--blue)',   icon: '' },
+    'oem_manual':           { label: 'OEM Manual',          color: 'var(--green)',  icon: '' },
+    'maintenance_records':  { label: 'Maintenance Records', color: 'var(--yellow)', icon: '' },
+    'spare_parts':          { label: 'Spare Parts',         color: 'var(--red)',    icon: '' },
+    'Sensor Data':          { label: 'Sensor Data',         color: 'var(--blue)',   icon: '' },
+    'OEM Manual':           { label: 'OEM Manual',          color: 'var(--green)',  icon: '' },
+    'Maintenance Records':  { label: 'Maintenance Records', color: 'var(--yellow)', icon: '' },
+    'Spare Parts':          { label: 'Spare Parts',         color: 'var(--red)',    icon: '' },
+  };
+
+  function renderEvidence(citations) {
+    // Group by section/type
+    const groups = {};
+    citations.forEach(function (c) {
+      const type = c.type || c.section || c.source_type || 'Other';
+      if (!groups[type]) groups[type] = [];
+      groups[type].push(c);
+    });
+
+    let html = '';
+    Object.keys(groups).forEach(function (type) {
+      const meta = sectionMeta[type] || { label: type, color: 'var(--accent)', icon: '' };
+      html += '<div class="evidence-section">';
+      html += '<div class="evidence-section-header"><span class="dot" style="background:' + meta.color + '"></span>' + escHtml(meta.label) + '</div>';
+      html += '<div class="evidence-section-body">';
+
+      groups[type].forEach(function (c) {
+        // Render key-value pairs from citation
+        const keys = Object.keys(c).filter(k => !['type', 'section', 'source_type'].includes(k));
+        keys.forEach(function (k) {
+          const val = typeof c[k] === 'object' ? JSON.stringify(c[k]) : String(c[k]);
+          html += '<div class="evidence-row"><span class="evidence-key">' + escHtml(k.replace(/_/g, ' ')) + '</span><span class="evidence-value">' + escHtml(val) + '</span></div>';
+        });
+
+        // Source info
+        if (c.source_file || c.file) {
+          let src = c.source_file || c.file;
+          if (c.rows || c.row_numbers) src += ' (rows ' + (c.rows || c.row_numbers) + ')';
+          html += '<div class="evidence-source">Source: ' + escHtml(src) + '</div>';
+        }
+      });
+
+      html += '</div></div>';
+    });
+
+    if (!html) {
+      html = '<div class="evidence-placeholder"><div class="icon">&#128269;</div><p>No structured citations returned for this query.</p></div>';
+    }
+
+    evidenceEl.innerHTML = html;
+  }
+
+  /* ── Init ── */
+  loadFleet();
+  chatInput.focus();
+
+})();
+</script>
+</body>
+</html>
