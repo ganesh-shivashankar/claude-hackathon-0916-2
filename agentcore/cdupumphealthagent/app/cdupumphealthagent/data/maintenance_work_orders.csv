@@ -1,0 +1,121 @@
+work_order_id,pump_id,date,wo_type,status,description,cost_usd,labor_hours,shift
+WO-0001,P-01,2024-09-23,Predictive,Scheduled,Alignment check,0,0,Day
+WO-0002,P-11,2024-09-13,Preventive,Cancelled,Bearing replacement,0,0,Day
+WO-0003,P-04,2024-09-04,Corrective,Completed,Motor overhaul,14250.5,34.9,Day
+WO-0004,P-10,2025-09-03,Predictive,Completed,Motor overhaul,19090.78,9.3,Night
+WO-0005,P-03,2025-03-12,Corrective,In Progress,Seal repair,0,0,Day
+WO-0006,P-02,2025-06-25,Predictive,In Progress,Oil change,0,0,Day
+WO-0007,P-09,2025-09-14,Preventive,Cancelled,Seal repair,0,0,Weekend
+WO-0008,P-11,2025-03-28,Predictive,Scheduled,Seal repair,0,0,Day
+WO-0009,P-05,2025-01-20,Preventive,Scheduled,Seal repair,0,0,Night
+WO-0010,P-08,2025-03-12,Predictive,Scheduled,Impeller inspection,0,0,Night
+WO-0011,P-11,2025-01-01,Predictive,Completed,Alignment check,15423.71,9.9,Day
+WO-0012,P-07,2025-09-17,Predictive,Scheduled,Impeller inspection,0,0,Day
+WO-0013,P-01,2025-01-21,Predictive,Cancelled,Oil change,0,0,Day
+WO-0014,P-10,2025-01-03,Predictive,Scheduled,Coupling replacement,0,0,Night
+WO-0015,P-03,2025-09-13,Predictive,Scheduled,Alignment check,0,0,Weekend
+WO-0016,P-09,2025-12-27,Predictive,Cancelled,Motor overhaul,0,0,Night
+WO-0017,P-03,2025-01-11,Emergency,Completed,Vibration analysis,19016.66,41.6,Weekend
+WO-0018,P-11,2024-11-11,Emergency,Completed,Coupling replacement,9926.8,29.4,Weekend
+WO-0019,P-09,2025-02-13,Preventive,Completed,Oil change,17201.9,26.7,Weekend
+WO-0020,P-02,2025-05-15,Predictive,Cancelled,Vibration analysis,0,0,Night
+WO-0021,P-12,2024-06-04,Predictive,Scheduled,Seal repair,0,0,Weekend
+WO-0022,P-11,2025-04-02,Corrective,Scheduled,Impeller inspection,0,0,Day
+WO-0023,P-09,2025-12-05,Preventive,In Progress,Coupling replacement,0,0,Day
+WO-0024,P-06,2024-09-23,Predictive,Scheduled,Bearing replacement,0,0,Day
+WO-0025,P-02,2026-01-02,Preventive,Cancelled,Seal repair,0,0,Weekend
+WO-0026,P-03,2024-10-07,Emergency,Scheduled,Oil change,0,0,Weekend
+WO-0027,P-04,2025-08-08,Corrective,In Progress,Motor overhaul,0,0,Weekend
+WO-0028,P-08,2025-06-18,Emergency,Completed,Bearing replacement,6573.69,4.9,Weekend
+WO-0029,P-04,2025-12-20,Corrective,Completed,Alignment check,2239.33,31.0,Day
+WO-0030,P-06,2024-07-03,Preventive,Scheduled,Oil change,0,0,Weekend
+WO-0031,P-04,2025-10-11,Corrective,Cancelled,Alignment check,0,0,Night
+WO-0032,P-04,2025-07-22,Preventive,Completed,Motor overhaul,16645.08,18.3,Night
+WO-0033,P-11,2024-07-26,Preventive,Completed,Seal repair,10364.22,17.6,Day
+WO-0034,P-04,2024-12-14,Emergency,Scheduled,Motor overhaul,0,0,Day
+WO-0035,P-08,2025-03-13,Corrective,Completed,Seal repair,11356.7,41.6,Day
+WO-0036,P-01,2025-12-06,Preventive,Scheduled,Vibration analysis,0,0,Night
+WO-0037,P-08,2025-10-11,Corrective,Cancelled,Bearing replacement,0,0,Day
+WO-0038,P-01,2025-06-24,Emergency,In Progress,Coupling replacement,0,0,Night
+WO-0039,P-12,2025-08-08,Emergency,Scheduled,Alignment check,0,0,Night
+WO-0040,P-01,2025-01-09,Preventive,In Progress,Bearing replacement,0,0,Day
+WO-0041,P-08,2026-01-20,Corrective,Completed,Vibration analysis,24039.08,5.7,Day
+WO-0042,P-11,2024-08-09,Corrective,Cancelled,Seal repair,0,0,Weekend
+WO-0043,P-10,2025-02-08,Preventive,Completed,Impeller inspection,10771.01,28.8,Night
+WO-0044,P-11,2024-12-27,Predictive,Scheduled,Oil change,0,0,Night
+WO-0045,P-11,2024-10-13,Predictive,Cancelled,Impeller inspection,0,0,Day
+WO-0046,P-08,2024-06-10,Preventive,Completed,Vibration analysis,13672.04,25.3,Night
+WO-0047,P-04,2024-08-10,Predictive,In Progress,Vibration analysis,0,0,Night
+WO-0048,P-12,2025-12-09,Predictive,Completed,Seal repair,16862.65,27.5,Day
+WO-0049,P-02,2025-02-26,Preventive,Scheduled,Oil change,0,0,Night
+WO-0050,P-12,2025-01-02,Predictive,Scheduled,Oil change,0,0,Weekend
+WO-0051,P-05,2025-10-14,Preventive,Completed,Bearing replacement,16039.97,40.2,Day
+WO-0052,P-03,2025-05-08,Predictive,Scheduled,Coupling replacement,0,0,Weekend
+WO-0053,P-09,2025-08-12,Preventive,Completed,Vibration analysis,2343.47,42.6,Weekend
+WO-0054,P-06,2024-07-07,Corrective,Cancelled,Vibration analysis,0,0,Day
+WO-0055,P-06,2025-04-12,Preventive,In Progress,Alignment check,0,0,Weekend
+WO-0056,P-11,2025-02-11,Preventive,In Progress,Motor overhaul,0,0,Weekend
+WO-0057,P-04,2024-11-06,Corrective,Scheduled,Motor overhaul,0,0,Day
+WO-0058,P-12,2024-12-01,Predictive,Cancelled,Alignment check,0,0,Night
+WO-0059,P-12,2024-11-11,Preventive,Cancelled,Bearing replacement,0,0,Night
+WO-0060,P-04,2025-01-14,Emergency,In Progress,Oil change,0,0,Day
+WO-0061,P-01,2025-01-15,Corrective,Cancelled,Impeller inspection,0,0,Night
+WO-0062,P-05,2024-08-11,Predictive,Cancelled,Impeller inspection,0,0,Day
+WO-0063,P-05,2024-09-27,Corrective,In Progress,Bearing replacement,0,0,Day
+WO-0064,P-06,2025-08-19,Predictive,Cancelled,Seal repair,0,0,Night
+WO-0065,P-04,2026-01-12,Predictive,Completed,Alignment check,17865.24,2.1,Night
+WO-0066,P-02,2025-08-16,Predictive,In Progress,Seal repair,0,0,Weekend
+WO-0067,P-09,2025-04-04,Predictive,Cancelled,Impeller inspection,0,0,Night
+WO-0068,P-09,2025-03-30,Corrective,Scheduled,Motor overhaul,0,0,Weekend
+WO-0069,P-11,2025-06-24,Corrective,In Progress,Motor overhaul,0,0,Weekend
+WO-0070,P-05,2024-06-01,Predictive,Scheduled,Motor overhaul,0,0,Weekend
+WO-0071,P-08,2025-04-26,Emergency,Cancelled,Alignment check,0,0,Weekend
+WO-0072,P-12,2025-09-28,Corrective,Completed,Impeller inspection,7452.77,32.5,Day
+WO-0073,P-11,2025-01-27,Predictive,Scheduled,Alignment check,0,0,Day
+WO-0074,P-01,2024-06-26,Corrective,Cancelled,Seal repair,0,0,Night
+WO-0075,P-11,2025-07-30,Corrective,Cancelled,Coupling replacement,0,0,Night
+WO-0076,P-03,2025-02-05,Preventive,Completed,Coupling replacement,19571.3,12.1,Day
+WO-0077,P-04,2025-12-23,Preventive,Cancelled,Vibration analysis,0,0,Night
+WO-0078,P-09,2025-11-26,Predictive,Cancelled,Motor overhaul,0,0,Weekend
+WO-0079,P-03,2025-08-31,Emergency,Cancelled,Oil change,0,0,Day
+WO-0080,P-09,2025-03-11,Emergency,Scheduled,Oil change,0,0,Night
+WO-0081,P-12,2024-08-19,Predictive,Scheduled,Oil change,0,0,Night
+WO-0082,P-09,2025-04-24,Preventive,Scheduled,Vibration analysis,0,0,Day
+WO-0083,P-12,2025-06-28,Corrective,Scheduled,Seal repair,0,0,Night
+WO-0084,P-06,2025-07-23,Emergency,Cancelled,Bearing replacement,0,0,Day
+WO-0085,P-07,2025-08-05,Preventive,Cancelled,Coupling replacement,0,0,Day
+WO-0086,P-05,2025-05-27,Emergency,Cancelled,Alignment check,0,0,Night
+WO-0087,P-05,2025-01-11,Emergency,Cancelled,Bearing replacement,0,0,Night
+WO-0088,P-11,2025-05-11,Emergency,Scheduled,Coupling replacement,0,0,Day
+WO-0089,P-01,2025-11-29,Emergency,Completed,Coupling replacement,2556.71,21.7,Day
+WO-0090,P-05,2024-07-22,Emergency,In Progress,Alignment check,0,0,Night
+WO-0091,P-06,2025-05-01,Emergency,In Progress,Motor overhaul,0,0,Night
+WO-0092,P-08,2024-08-23,Preventive,Completed,Seal repair,24997.74,18.1,Weekend
+WO-0093,P-01,2024-07-12,Corrective,Scheduled,Bearing replacement,0,0,Weekend
+WO-0094,P-04,2024-11-04,Corrective,Cancelled,Seal repair,0,0,Weekend
+WO-0095,P-08,2025-01-10,Predictive,In Progress,Vibration analysis,0,0,Weekend
+WO-0096,P-03,2024-09-26,Predictive,Completed,Motor overhaul,14677.78,44.7,Night
+WO-0097,P-02,2024-12-21,Corrective,Completed,Seal repair,17581.23,15.9,Weekend
+WO-0098,P-06,2024-07-13,Emergency,In Progress,Seal repair,0,0,Weekend
+WO-0099,P-01,2025-05-16,Emergency,Cancelled,Seal repair,0,0,Night
+WO-0100,P-11,2025-06-06,Emergency,Scheduled,Motor overhaul,0,0,Day
+WO-0101,P-11,2025-11-17,Predictive,Cancelled,Coupling replacement,0,0,Night
+WO-0102,P-06,2025-03-02,Corrective,Completed,Coupling replacement,7333.74,22.7,Weekend
+WO-0103,P-06,2025-06-24,Preventive,Cancelled,Impeller inspection,0,0,Day
+WO-0104,P-04,2025-10-13,Predictive,In Progress,Impeller inspection,0,0,Night
+WO-0105,P-09,2025-03-10,Preventive,Scheduled,Seal repair,0,0,Day
+WO-0106,P-08,2025-07-22,Corrective,Cancelled,Coupling replacement,0,0,Night
+WO-0107,P-02,2024-06-18,Predictive,Scheduled,Motor overhaul,0,0,Weekend
+WO-0108,P-05,2025-02-05,Predictive,Cancelled,Impeller inspection,0,0,Night
+WO-0109,P-06,2025-12-16,Predictive,Cancelled,Oil change,0,0,Night
+WO-0110,P-04,2025-02-13,Preventive,Scheduled,Impeller inspection,0,0,Day
+WO-0111,P-12,2025-12-01,Corrective,Scheduled,Alignment check,0,0,Weekend
+WO-0112,P-05,2025-10-09,Predictive,Completed,Impeller inspection,20899.39,15.6,Day
+WO-0113,P-01,2025-04-06,Corrective,In Progress,Bearing replacement,0,0,Day
+WO-0114,P-05,2025-12-19,Corrective,Cancelled,Seal repair,0,0,Day
+WO-0115,P-05,2026-01-09,Emergency,Cancelled,Coupling replacement,0,0,Night
+WO-0116,P-01,2024-12-06,Predictive,Cancelled,Seal repair,0,0,Day
+WO-0117,P-08,2025-07-16,Preventive,Completed,Oil change,4217.31,39.3,Day
+WO-0118,P-02,2025-02-10,Emergency,Scheduled,Motor overhaul,0,0,Night
+WO-0119,P-05,2025-08-28,Emergency,In Progress,Bearing replacement,0,0,Weekend
+WO-0120,P-04,2024-09-10,Corrective,In Progress,Seal repair,0,0,Day

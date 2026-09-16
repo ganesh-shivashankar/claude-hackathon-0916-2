@@ -1,0 +1,124 @@
+{
+  "$schema": "https://schema.agentcore.aws.dev/v1/agentcore.json",
+  "name": "cdupumphealthagent",
+  "version": 1,
+  "managedBy": "CDK",
+  "tags": {
+    "agentcore:created-by": "agentcore-cli",
+    "agentcore:project-name": "cdupumphealthagent"
+  },
+  "runtimes": [
+    {
+      "name": "cdupumphealthagent",
+      "build": "CodeZip",
+      "entrypoint": "main.py",
+      "codeLocation": "app/cdupumphealthagent/",
+      "runtimeVersion": "PYTHON_3_14",
+      "networkMode": "PUBLIC",
+      "protocol": "HTTP"
+    }
+  ],
+  "memories": [],
+  "knowledgeBases": [],
+  "credentials": [],
+  "evaluators": [
+    {
+      "name": "groundedness",
+      "level": "SESSION",
+      "config": {
+        "llmAsAJudge": {
+          "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+          "instructions": "Evaluate the agent response for groundedness. Check: 1) Does every factual claim cite a specific data file and row number? 2) Are pump IDs valid (P-01 through P-12)? 3) Are failure modes from the known set (bearing_wear, seal_failure, cavitation, impeller_damage, misalignment)? 4) Are ISO 10816 zones correctly applied (A/B/C/D)? 5) Does the response follow the format (Assessment, Evidence, Diagnosis, Risk Level)? Rate 1-5 where 5 means every claim is grounded with explicit citations. {context}",
+          "ratingScale": {
+            "numerical": [
+              {
+                "value": 1,
+                "label": "Poor",
+                "definition": "Fails to meet expectations"
+              },
+              {
+                "value": 2,
+                "label": "Fair",
+                "definition": "Partially meets expectations"
+              },
+              {
+                "value": 3,
+                "label": "Good",
+                "definition": "Meets expectations"
+              },
+              {
+                "value": 4,
+                "label": "Very Good",
+                "definition": "Exceeds expectations"
+              },
+              {
+                "value": 5,
+                "label": "Excellent",
+                "definition": "Far exceeds expectations"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "tool_trajectory",
+      "level": "TRACE",
+      "config": {
+        "llmAsAJudge": {
+          "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+          "instructions": "Evaluate whether the agent used the right tools in the right order. Available tools: query_sensors, get_pump_profile, check_vibration_zone, classify_failure_mode, search_alarms, get_maintenance_history, check_spare_parts, compute_cost, search_oem_manual, get_operating_status. For health checks expect query_sensors+check_vibration_zone+get_pump_profile. For diagnoses expect query_sensors+classify_failure_mode+search_oem_manual. Rate 1-5. {context}",
+          "ratingScale": {
+            "numerical": [
+              {
+                "value": 1,
+                "label": "Poor",
+                "definition": "Fails to meet expectations"
+              },
+              {
+                "value": 2,
+                "label": "Fair",
+                "definition": "Partially meets expectations"
+              },
+              {
+                "value": 3,
+                "label": "Good",
+                "definition": "Meets expectations"
+              },
+              {
+                "value": 4,
+                "label": "Very Good",
+                "definition": "Exceeds expectations"
+              },
+              {
+                "value": 5,
+                "label": "Excellent",
+                "definition": "Far exceeds expectations"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "onlineEvalConfigs": [],
+  "agentCoreGateways": [],
+  "policyEngines": [],
+  "configBundles": [],
+  "abTests": [],
+  "harnesses": [],
+  "datasets": [
+    {
+      "name": "pump_health_eval",
+      "schemaType": "AGENTCORE_EVALUATION_PREDEFINED_V1",
+      "description": "CDU pump health evaluation scenarios",
+      "config": {
+        "managed": {
+          "location": "datasets/pump_health_eval.jsonl"
+        }
+      }
+    }
+  ],
+  "capacityProviders": [],
+  "payments": []
+}

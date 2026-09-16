@@ -1,3 +1,9 @@
 __pycache__/
 *.pyc
 ui-ux-pro-max-skill/
+node_modules/
+cdk.out/
+*.js.map
+.cli/
+__pycache__/
+*.pyc

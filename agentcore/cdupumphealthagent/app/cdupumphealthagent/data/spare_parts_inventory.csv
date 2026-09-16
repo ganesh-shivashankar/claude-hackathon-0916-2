@@ -1,0 +1,13 @@
+part_number,description,category,unit_cost_usd,qty_on_hand,reorder_point,lead_time_days,compatible_pumps
+BRG-6205,SKF 6205-2RS Deep Groove Ball Bearing,Bearing,45.0,24,8,22,P-09;P-02;P-03;P-01
+BRG-6305,SKF 6305-2RS Deep Groove Ball Bearing,Bearing,62.0,18,6,33,P-12;P-10;P-08;P-05;P-01;P-02
+BRG-NU210,FAG NU210 Cylindrical Roller Bearing,Bearing,185.0,8,2,25,P-05;P-08;P-02;P-04;P-12;P-07;P-06;P-11
+SEAL-CR25,CR 25x42x7 HMS5 Shaft Seal,Seal,28.0,36,12,19,P-02;P-09;P-04;P-03;P-05;P-07
+SEAL-CR35,CR 35x52x7 HMS5 Shaft Seal,Seal,35.0,24,8,16,P-01;P-03;P-05
+SEAL-MECH,John Crane Type 21 Mechanical Seal,Seal,1250.0,6,2,45,P-10;P-05;P-08;P-02;P-12;P-06;P-03;P-04
+IMP-SS316,316SS Closed Impeller 200mm,Impeller,3200.0,4,2,24,P-09;P-08;P-11;P-02;P-01;P-04;P-06
+IMP-DI,Ductile Iron Impeller 250mm,Impeller,1800.0,6,2,27,P-05;P-01;P-02;P-04;P-11;P-07;P-06
+COUP-FL50,Falk Steelflex 1050T Coupling,Coupling,450.0,8,2,24,P-01;P-03;P-08;P-09;P-10;P-11;P-02
+COUP-FL70,Falk Steelflex 1070T Coupling,Coupling,680.0,6,2,44,P-11;P-08;P-02;P-12;P-06;P-04
+GSKT-PTFE,PTFE Spiral Wound Gasket 6in 150#,Gasket,45.0,48,16,28,P-11;P-02;P-03;P-06;P-07
+OIL-ISO68,Mobil DTE Heavy Medium ISO 68,Lubricant,85.0,20,6,38,P-11;P-07;P-09;P-01;P-08
